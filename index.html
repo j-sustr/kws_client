@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <link rel="stylesheet" href="./css/main.css">
+</head>
+
+<body>
+    <div id="kws-wrapper">
+        <h1>KWS</h1>
+        <form id="kws-form">
+            <div class="standard">
+                <label for="vocab-picker">Slovník</label>
+                <input type="file" id="vocab-picker" accept=".voc,.lex" required>
+                <label>Dataset</label>
+                <div id="dataset-choice" class="choice">
+                    <div>
+                        <input type="radio" id="dataset-call" name="dataset" value="call" checked>
+                        <label for="dataset-call">Call</label>
+                    </div>
+                    <div>
+                        <input type="radio" id="dataset-interview" name="dataset" value="interview">
+                        <label for="dataset-interview">Interview</label>
+                    </div>
+                    <div>
+                        <input type="radio" id="dataset-stream" name="dataset" value="stream">
+                        <label for="dataset-stream">Stream</label>
+                    </div>
+                    <div>
+                        <input type="radio" id="dataset-custom" name="dataset" value="custom">
+                        <label for="dataset-custom">Custom</label>
+                    </div>
+                </div>
+
+                <label></label>
+                <div id="custom-dataset">
+                    <input type="file" id="custom-dataset-picker" accept=".wav" multiple></input>
+                    <div class="progress-info"></div>
+                </div>
+
+
+                <label>Jazyk</label>
+                <div id="language-choice" class="choice">
+                    <div>
+                        <input type="radio" id="lang-cz" name="lang" value="cz" checked>
+                        <label for="lang-cz">CZ</label>
+                    </div>
+                    <div>
+                        <input type="radio" id="lang-sk" name="lang" value="sk">
+                        <label for="lang-sk">SK</label>
+                    </div>
+                    <div>
+                        <input type="radio" id="lang-pl" name="lang" value="pl">
+                        <label for="lang-pl">PL</label>
+                    </div>
+                    <div>
+                        <input type="radio" id="lang-hr" name="lang" value="hr">
+                        <label for="lang-hr">HR</label>
+                    </div>
+                </div>
+                <label>Typ fonémů</label>
+                <div id="phonemes-choice" class="choice">
+                    <!-- <div>
+                    <input type="radio" id="monophones" name="phonemes" value="mono">
+                    <label for="monophones">Mono</label>
+                </div> -->
+                    <div>
+                        <input type="radio" id="triphones" name="phonemes" value="tri" checked>
+                        <label for="triphones">Tri</label>
+                    </div>
+                </div>
+                <label for="toggle-advanced">Pokročilé nastavení</label>
+                <input type="checkbox" id="toggle-advanced"></input>
+                <label for="email">Email</label>
+                <input type="email" id="email" pattern=".+@.+" size="30" required>
+                <!-- ▽△ -->
+                <button type="submit" id="run-btn">Spustit</button>
+            </div>
+            <div class="advanced">
+                <label for="num-hypotheses">NumHypotheses</label>
+                <input type="number" id="num-hypotheses" required>
+                <label for="prune-threshold">PruneThreshold</label>
+                <input type="number" id="prune-threshold" required>
+                <label for="spot-threshold">SpotThreshold</label>
+                <input type="number" id="spot-threshold" required>
+                <label for="disp-threshold">DispThreshold</label>
+                <input type="number" id="disp-threshold" required>
+                <label for="scale-factor">ScaleFactor</label>
+                <input type="number" id="scale-factor" required>
+                <label for="frame-shift-in-samples">FrameShiftInSamples</label>
+                <input type="number" id="frame-shift-in-samples" required>
+                <label for="frame-offset-due-parametrization">FrameOffsetDueParametrization</label>
+                <input type="number" id="frame-offset-due-parametrization" required>
+            </div>
+        </form>
+        <div></div>
+    </div>
+
+    <script src="./vendor/windows-1250.js"></script>
+    <script src="./vendor/polyfill-TextEncoder.js"></script>
+    <script src="./js/main.js" type="module"></script>
+</body>
+
+</html>

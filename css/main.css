@@ -1,0 +1,76 @@
+html {
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+/* body { */
+    /* background-color: gray; */
+/* } */
+
+h1 {
+    margin: 100px 0 0 100px;
+}
+
+#kws-wrapper {
+    margin-left: 50px;
+    /* background-color: white;
+    height: ; */
+}
+
+#kws-form > div {
+    float: left;
+}
+
+#kws-form .standard {
+    display: grid;
+    grid-gap: 20px;
+    grid-template-columns: 100px 200px;
+    margin: 50px;
+}
+
+#kws-form .standard > label {
+    text-align: right;
+    grid-column: 1 / 2;
+}
+
+#kws-form .standard > input, 
+#kws-form .standard > button,
+#kws-form .standard > div.choice,
+#kws-form .standard > a {
+    grid-column: 2 / 3;
+}
+
+#kws-form > a {
+    cursor: default;
+    width: fit-content;
+    height: fit-content;
+}
+/* #kws-form > a:hover {
+    font-weight: bolder;
+} */
+
+#kws-form .advanced {
+    display: none;
+    /* display: grid; */
+    grid-gap: 20px;
+    grid-template-columns: 200px 200px;
+    margin: 50px;
+}
+
+#kws-form .advanced > label {
+    text-align: right;
+}
+
+#run-btn {
+    width: 100px;
+}
+
+#custom-dataset .progress-info {
+    height: 2em;
+    line-height: 2em;
+}
+
+
+
+/* #kws-form > div { */
+    /* margin: 20px */
+/* } */
