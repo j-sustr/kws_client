@@ -1,11 +1,15 @@
 export default function initForm() {
     const formElem = document.getElementById('kws-form');
     const vocabPicker = document.getElementById('vocab-picker');
-    const datasetChoice = document.querySelectorAll('#dataset-choice input[type="radio"]');
-    const languageChoice = document.querySelectorAll('#language-choice input[type="radio"]');
-    const phonemesChoice = document.querySelectorAll('#phonemes-choice input[type="radio"]');
+    const datasetChoiceRadios = document.querySelectorAll('#dataset-choice input[type="radio"]');
+    const languageChoiceRadios = document.querySelectorAll('#language-choice input[type="radio"]');
+    const phonemesChoiceRadios = document.querySelectorAll('#phonemes-choice input[type="radio"]');
     const toggleAdvancedCheckbox = document.getElementById('toggle-advanced');
     const emailInput = document.getElementById('email');
+    const languageChoiceDivs = document.querySelectorAll('#language-choice div');
+    const languageChoiceRadioCZ = document.querySelector('#language-choice input[type="radio"][value="cz"]');
+
+    //window.languageChoiceRadioCZ = languageChoiceRadioCZ
 
     const advancedDiv = formElem.querySelector('#kws-form .advanced');
     const numHypothesesInput = document.getElementById('num-hypotheses');
@@ -17,7 +21,6 @@ export default function initForm() {
     const frameOffsetDueParametrizationInput = document.getElementById('frame-offset-due-parametrization');
 
     //const customDatasetRadio = document.querySelector('#dataset-choice input[type="radio"][value="custom"]');
-    const datasetChoiceRadios = document.querySelectorAll('#dataset-choice input[type="radio"]');
     
     const customDatasetDiv = document.getElementById('custom-dataset');
     const customDatasetPicker = document.getElementById('custom-dataset-picker');
@@ -56,11 +59,13 @@ export default function initForm() {
     datasetChoiceRadios.forEach(radio => {
         radio.addEventListener('change', e => {
             if (e.target.value === 'custom') {
+                setCustomLanguagesEnabled(true);
                 customDatasetDiv.style.display = '';
                 customDatasetEnabled = true;
                 customDatasetPicker.value = null;
                 customDatasetPicker.required = true;
             } else {
+                setCustomLanguagesEnabled(false);
                 customDatasetDiv.style.display = 'none';
                 customDatasetEnabled = false;
                 customDatasetPicker.required = false;
@@ -134,17 +139,17 @@ export default function initForm() {
    
     formElem.addEventListener('submit', (e) => {
         e.preventDefault();
-        datasetChoice.forEach(radio => {
+        datasetChoiceRadios.forEach(radio => {
             if (radio.checked) {
                 datasetName = radio.value;
             }
         });
-        languageChoice.forEach(radio => {
+        languageChoiceRadios.forEach(radio => {
             if (radio.checked) {
                 language = radio.value;
             }
         });
-        phonemesChoice.forEach(radio => {
+        phonemesChoiceRadios.forEach(radio => {
             if (radio.checked) {
                 phonemeType = radio.value;
             }
@@ -166,6 +171,19 @@ export default function initForm() {
             submitBtn.disabled = false;
         } else if (!readingVocabFile) {
             submitBtn.disabled = false;
+        }
+    }
+
+    function setCustomLanguagesEnabled(value) {
+        let display = value ? '' : 'none';
+        languageChoiceDivs.forEach(div => {
+            if (div.className !== 'language-cz') {
+                div.style.display = display;
+            }
+        });
+
+        if (!value) {
+            languageChoiceRadioCZ.checked = true;
         }
     }
 
