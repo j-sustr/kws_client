@@ -21,33 +21,27 @@ export default function initForm() {
     const frameOffsetDueParametrizationInput = document.getElementById('frame-offset-due-parametrization');
 
     //const customDatasetRadio = document.querySelector('#dataset-choice input[type="radio"][value="custom"]');
-    
+
     const customDatasetDiv = document.getElementById('custom-dataset');
     const customDatasetPicker = document.getElementById('custom-dataset-picker');
     const customDatasetProgressInfo = document.querySelector('#custom-dataset .progress-info');
 
     const submitBtn = document.querySelector('#kws-form button[type="submit"]');
-    
+
     const form = {
-        onSubmit: (data) => {},
-        onError: (error) => {},
+        onSubmit: (data) => { },
+        onError: (error) => { },
         // onWavFilesSelected: (wavFiles) => {},
         // wavFilesReady: () => {
-            // submitBtn.disabled = false;
-            // customDatasetProgressInfo.innerHTML = "";
+        // submitBtn.disabled = false;
+        // customDatasetProgressInfo.innerHTML = "";
         // }
     };
-    
-    setDefaultTri();
-    setCustomLanguagesEnabled(false);
-    //submitBtn.disabled = true;
-    customDatasetDiv.style.display = 'none';
-    customDatasetPicker.required = false;
 
     let customDatasetEnabled = false;
     let readingVocabFile = false;
     let readingWavFiles = false;
-    
+
     let wavFiles = [];
     let vocabFile = {};
     let datasetName;
@@ -56,20 +50,17 @@ export default function initForm() {
     let email;
     let advanced;
 
-    
+    setDefaultTri();
+    setCustomEnabled(true);
+    //submitBtn.disabled = true;
+
+
     datasetChoiceRadios.forEach(radio => {
         radio.addEventListener('change', e => {
             if (e.target.value === 'custom') {
-                setCustomLanguagesEnabled(true);
-                customDatasetDiv.style.display = '';
-                customDatasetEnabled = true;
-                customDatasetPicker.value = null;
-                customDatasetPicker.required = true;
+                setCustomEnabled(true);
             } else {
-                setCustomLanguagesEnabled(false);
-                customDatasetDiv.style.display = 'none';
-                customDatasetEnabled = false;
-                customDatasetPicker.required = false;
+                setCustomEnabled(false);
             }
         });
     });
@@ -86,7 +77,7 @@ export default function initForm() {
                 readingVocabFile = false;
                 enableSubmitIfReady();
             }
-            reader.readAsArrayBuffer(curFiles[0]);   
+            reader.readAsArrayBuffer(curFiles[0]);
         }
     });
 
@@ -101,7 +92,7 @@ export default function initForm() {
                     let reader = new FileReader();
                     reader.onload = (e) => {
                         resolve({
-                            name: file.name, 
+                            name: file.name,
                             data: e.target.result
                         });
                     }
@@ -110,18 +101,18 @@ export default function initForm() {
                         reject(new Error('Reading operation encountered an error'));
                     }
                     reader.readAsArrayBuffer(file);
-                })  
+                })
             });
             Promise.all(promises)
-            .then(files => {
-                wavFiles = files;
-                readingWavFiles = false;
-                customDatasetProgressInfo.innerHTML = "";
-                enableSubmitIfReady();
-            })
-            .catch(error => {
-                alert('Při čtení wav souborů došlo k chybě.');
-            });
+                .then(files => {
+                    wavFiles = files;
+                    readingWavFiles = false;
+                    customDatasetProgressInfo.innerHTML = "";
+                    enableSubmitIfReady();
+                })
+                .catch(error => {
+                    alert('Při čtení wav souborů došlo k chybě.');
+                });
         } else {
             customDatasetProgressInfo.innerHTML = "";
         }
@@ -137,7 +128,7 @@ export default function initForm() {
     toggleAdvancedCheckbox.addEventListener('click', (e) => {
         advancedDiv.style.display = e.target.checked ? 'grid' : 'none';
     });
-   
+
     formElem.addEventListener('submit', (e) => {
         e.preventDefault();
         datasetChoiceRadios.forEach(radio => {
@@ -175,7 +166,7 @@ export default function initForm() {
         }
     }
 
-    function setCustomLanguagesEnabled(value) {
+    function setCustomEnabled(value) {
         let display = value ? '' : 'none';
         languageChoiceDivs.forEach(div => {
             if (div.className !== 'language-cz') {
@@ -183,7 +174,17 @@ export default function initForm() {
             }
         });
 
-        if (!value) {
+        if (value) {
+            customDatasetPicker.value = null;
+
+            customDatasetDiv.style.display = '';
+            customDatasetEnabled = true;
+            customDatasetPicker.required = true;
+        } else {
+            customDatasetDiv.style.display = 'none';
+            customDatasetEnabled = false;
+            customDatasetPicker.required = false;
+
             languageChoiceRadioCZ.checked = true;
         }
     }
