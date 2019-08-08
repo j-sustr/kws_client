@@ -39,6 +39,7 @@ export default function initForm() {
     };
     
     setDefaultTri();
+    setCustomLanguagesEnabled(false);
     //submitBtn.disabled = true;
     customDatasetDiv.style.display = 'none';
     customDatasetPicker.required = false;
