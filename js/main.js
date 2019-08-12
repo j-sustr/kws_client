@@ -4,10 +4,10 @@ import createCfgxFile from './createCfgxFile.js';
 import fixFilename from './fixFilename.js';
 
 
-//const API_ROUTE = 'http://urad.ite.tul.cz:6670/api';
-//const API_ROUTE = 'http://localhost:5000/api';
-//const API_ROUTE = `http://urad.ite.tul.cz:6660/ws/api`; // 
-const API_ROUTE = 'api';
+//const API_PATH = 'http://urad.ite.tul.cz:6670/api';
+//const API_PATH = 'http://localhost:5000/api';
+//const API_PATH = `http://urad.ite.tul.cz:6660/ws/api`; // 
+const API_PATH = 'api';
 
 
 window.createCfgxFile = createCfgxFile
@@ -26,7 +26,7 @@ function main() {
             data.wavFiles.forEach(file => file.name = fixFilename(file.name));
         }
         
-        sendTask(API_ROUTE, data)
+        sendTask(API_PATH, data)
             .then(() => {
                 alert('Úspěšně odesláno');
             })

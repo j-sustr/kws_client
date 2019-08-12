@@ -8,8 +8,9 @@ export default function initForm() {
     const emailInput = document.getElementById('email');
     const languageChoiceDivs = document.querySelectorAll('#language-choice div');
     const languageChoiceRadioCZ = document.querySelector('#language-choice input[type="radio"][value="cz"]');
-
+    
     //window.languageChoiceRadioCZ = languageChoiceRadioCZ
+    const uploadProgressInfoDiv = document.querySelector('#kws-form .upload-progress-info');
 
     const advancedDiv = formElem.querySelector('#kws-form .advanced');
     const numHypothesesInput = document.getElementById('num-hypotheses');
@@ -42,7 +43,7 @@ export default function initForm() {
     let readingVocabFile = false;
     let readingWavFiles = false;
 
-    let wavFiles = [];
+    let wavFiles = null;
     let vocabFile = {};
     let datasetName;
     let language;
@@ -82,6 +83,8 @@ export default function initForm() {
     });
 
     customDatasetPicker.addEventListener('change', (e) => {
+        uploadProgressInfoDiv.innerHTML = "";
+
         let curFiles = e.target.files;
         if (curFiles.length !== 0) {
             readingWavFiles = true;
@@ -93,7 +96,9 @@ export default function initForm() {
                     reader.onload = (e) => {
                         resolve({
                             name: file.name,
-                            data: e.target.result
+                            data: e.target.result,
+                            sizeMB: e.target.result.byteLength / 1e6,
+                            onuploadprogress: null,
                         });
                     }
                     reader.onerror = (e) => {
@@ -131,6 +136,7 @@ export default function initForm() {
 
     formElem.addEventListener('submit', (e) => {
         e.preventDefault();
+
         datasetChoiceRadios.forEach(radio => {
             if (radio.checked) {
                 datasetName = radio.value;
@@ -150,6 +156,8 @@ export default function initForm() {
         email = emailInput.value;
         if (!customDatasetEnabled) {
             wavFiles = null;
+        } else {
+            setupWavFilesUploadProgressInfo();
         }
         form.onSubmit({ vocabFile, datasetName, language, phonemeType, advanced, email, wavFiles });
     });
@@ -187,6 +195,22 @@ export default function initForm() {
 
             languageChoiceRadioCZ.checked = true;
         }
+    }
+
+    function setupWavFilesUploadProgressInfo() {
+        //uploadProgressInfoDiv.style.display = "none";
+        uploadProgressInfoDiv.innerHTML = "";
+        wavFiles.forEach((file, i) => {
+            let fileProgressDiv = document.createElement('div');
+            fileProgressDiv.className = `file-progress`;
+            uploadProgressInfoDiv.appendChild(fileProgressDiv);
+            fileProgressDiv.innerHTML = `${file.name} (${file.sizeMB.toFixed(1)} MB): 0 %`;
+            file.onuploadprogress = (e) => {
+                fileProgressDiv.innerHTML = `${file.name} (${file.sizeMB.toFixed(1)} MB): ${Math.round(100 * e.loaded / e.total)} %`;
+            }
+        });
+        
+        //uploadProgressInfoDiv
     }
 
     function setDefaultMono() {
