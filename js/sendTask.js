@@ -45,12 +45,14 @@ export default async function sendTask(apiPath, data) {
 
     if (Array.isArray(wavFiles)) {
         //console.log(apiRoute + `/${task.id}/wav`)
-        let requests = await Promise.all(wavFiles.map(file => {
+        //let requests = await Promise.all(wavFiles.map(file => {
+        for (const file of wavFiles) {
+
             console.log(file.name);
 
             let xhr = new XMLHttpRequest();
 
-            return new Promise((resolve, reject) => {
+            await new Promise((resolve, reject) => {
                 xhr.upload.onprogress = (ev) => file.onuploadprogress(ev);
                 xhr.onloadend = (ev) => resolve(xhr);
                 xhr.onerror = (ev) => reject(new Error(`Wav upload failed`));
@@ -60,11 +62,15 @@ export default async function sendTask(apiPath, data) {
                 xhr.setRequestHeader('Content-Type', 'application/octet-stream');
                 xhr.send(file.data);
             });
-        }));
 
-        if (!requests.every(req => req.status === 200)) {
-            throw new Error('Wav files upload was not successful');
+            if (xhr.status !== 200) {
+                throw new Error('Wav files upload was not successful');
+            }
         }
+
+        //if (!requests.every(req => req.status === 200)) {
+        //    throw new Error('Wav files upload was not successful');
+        //}
     }
 
     task.dataset = datasetName;
