@@ -53,9 +53,7 @@ export default async function sendTask(apiPath, data) {
             return new Promise((resolve, reject) => {
                 xhr.upload.onprogress = (ev) => file.onuploadprogress(ev);
                 xhr.onloadend = (ev) => resolve(xhr);
-                xhr.onerror = (ev) => {
-                    reject(new Error(`Wav upload failed`));
-                };
+                xhr.onerror = (ev) => reject(new Error(`Wav upload failed`));
 
                 xhr.open("POST", apiPath + `/${task.id}/wav`);
                 xhr.setRequestHeader('filename', file.name);
@@ -64,7 +62,7 @@ export default async function sendTask(apiPath, data) {
             });
         }));
 
-        if (!requests.every(req => req.response === "ok")) {
+        if (!requests.every(req => req.status === 200)) {
             throw new Error('Wav files upload was not successful');
         }
     }
