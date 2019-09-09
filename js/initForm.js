@@ -224,8 +224,8 @@ export default function initForm() {
     }
 
     function setDefaultTri() {
-        numHypothesesInput.value = 10;
-        pruneThresholdInput.value = 80;
+        numHypothesesInput.value = 5;
+        pruneThresholdInput.value = 60;
         spotThresholdInput.value = 20;
         dispThresholdInput.value = 20;
         scaleFactorInput.value = 200;
